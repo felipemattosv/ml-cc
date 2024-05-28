@@ -28,3 +28,33 @@ The $ L_2 $ loss for a single example is: $ (y - prediction(x))^2 = (y - y')^2 $
 Is the average squared loss per example over all N dataset examples.
 
 $ MSE = 1/N \cdot \sum_{i=0}^{N} (y_i - y'_i)^2 $
+
+## Reducing Loss
+
+### Gradient Descent
+The gradient of a function is a vector that points in the direction of the greatest rate of increase of the function, and whose magnitude is that rate of increase. So if we want to minimize the loss function, we have to go in the opposite direction of the gradient.
+
+To calculate the gradient, we have to calculate the derivative of the loss function with respect to the weights and biases.
+
+So we reapeatedly take small steps in the direction that minimizes the loss.
+
+But compute the gradient over the entire dataset on each step is unnecessary and will spend a lot of computation.So we have techniques to make this more efficiently:
+
+#### Stochastic Gradient Descent (SGD)
+Look at only one example for step.
+
+#### Mini-Batch Stochastic Gradient Descent
+Look at random batches (groups of 10-1000 examples) for step, then average the Loss & Gradients over the batch.
+
+### Weights Initialization
+Usually the loss function isn't convex, i.e, has more than one minimun. This means that the training performance has strong dependency on initial values.
+
+### Hyperparameters
+Hyperparameters are the configuration settings used to tune how the model is trained.
+
+Examples are the BATCH_SIZE, LEARNING_RATE, ...
+
+### Learning rate
+Gradient descent algorithm multiply the gradient by a scalar known as learning rate (also sometimes called step size) to determine the next point.
+
+To perform a good training we have to used the right learning rate. If the LR is too small, learning will take too long. Conversely, if the LR is too large, the next point will perpetually bounce across the bottom of the loss function.
