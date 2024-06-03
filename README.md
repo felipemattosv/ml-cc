@@ -58,3 +58,18 @@ Examples are the BATCH_SIZE, LEARNING_RATE, ...
 Gradient descent algorithm multiply the gradient by a scalar known as learning rate (also sometimes called step size) to determine the next point.
 
 To perform a good training we have to used the right learning rate. If the LR is too small, learning will take too long. Conversely, if the LR is too large, the next point will perpetually bounce across the bottom of the loss function.
+
+## Generalization
+Generalization refers to your model's ability to adapt properly to new, previously unseen data, drawn from the same distribution as the one used to create the model.
+
+### Overfitting
+When the model learns details and noise from training data so well that it loses the ability to generalize to new data. This means that the model may perform excellently on training data, but perform poorly on previously unseen data.
+
+A good way to stop overfitting is reducing the models complexity and removing noise and outliers from the training dataset.
+
+### Diving the dataset
+A nice way to see if the model is good for generalization is getting a sample of the data and using it only for testing. Good performance on the test set is a useful indicator of good performance on the new data in general, assuming that:
+- the test-set is large enough
+- you don´t cheat by using the same test set over and over
+
+This separation must be random, stationary (i.e, it doesn´t change over time) and always from the same data distribution.
