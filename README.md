@@ -73,3 +73,13 @@ A nice way to see if the model is good for generalization is getting a sample of
 - you don´t cheat by using the same test set over and over
 
 This separation must be random, stationary (i.e, it doesn´t change over time) and always from the same data distribution.
+
+## Data partitioning scheme
+To avoid overfitting in test data, comes a new partitioning called validation-set.
+
+- TRAINING-SET: Used to train the model.
+
+- VALIDATION-SET: Used to evaluate model during training and adjust hyperparameters.
+
+- TEST-SET: Ignored during training, it is only used to evaluate the model generalization performance (i.e, check if the model is overfitting to the validation-set)
+
