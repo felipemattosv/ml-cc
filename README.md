@@ -34,6 +34,8 @@ $ MSE = 1/N \cdot \sum_{i=0}^{N} (y_i - y'_i)^2 $
 ### Gradient Descent
 The gradient of a function is a vector that points in the direction of the greatest rate of increase of the function, and whose magnitude is that rate of increase. So if we want to minimize the loss function, we have to go in the opposite direction of the gradient.
 
+<img src="assets/gradient_descent.png" alt="Gradient descent" width="400"/>
+
 To calculate the gradient, we have to calculate the derivative of the loss function with respect to the weights and biases.
 
 So we reapeatedly take small steps in the direction that minimizes the loss.
@@ -64,6 +66,10 @@ Generalization refers to your model's ability to adapt properly to new, previous
 
 ### Overfitting
 When the model learns details and noise from training data so well that it loses the ability to generalize to new data. This means that the model may perform excellently on training data, but perform poorly on previously unseen data.
+
+| Overfitted model after training | Overfitted model during test |
+|----------|----------|
+| <img src="assets/overfitted_model_after_training.png" alt="Overfitted model after training phase" width="300"/> | <img src="assets/overfitted_model_during_test.png" alt="Overfitted model during test" width="300"/>) |
 
 A good way to stop overfitting is reducing the models complexity and removing noise and outliers from the training dataset.
 
@@ -170,12 +176,18 @@ Scaling means converting floating-point feature values from their natural range 
 $ scaledvalue = (value - mean) / stddev $
 
 ### Handling extreme outliers
-First of all we need to find the outliers, for that, is useful to plot the Probability Density Function of the feature and see if it has a "tail". A long "tail" means that are some huge outliers. To minimize the effect of this outliers, we can apply the $ log $ on the feature or set the feature to $ feature = min(feature, L) $ where $ L $ is the value that we will clip the outliers.
+First of all we need to find the outliers, for that, is useful to plot the Probability Density Function of the feature and see if it has a "tail". A long "tail" means that are some huge outliers. 
+
+<img src="assets/outliers.png" alt="Outliers example" width="300"/>
+
+To minimize the effect of this outliers, we can apply the $ log $ on the feature or set the feature to $ feature = min(feature, L) $ where $ L $ is the value that we will clip the outliers.
 
 ### Binning
 If we´re working with latitude, for example, is useful to separate latitude in bins,
 
 example: LatitudeBin1 = 32 < latitude <= 33; (...); LatitudeBin6 = 37 < latitude <= 38;
+
+<img src="assets/binning.png" alt="Binning example" width="500"/>
 
 Doing that, instead of having a floatting-point feature, we now have 11 distinc boolean features, that we can unite to a single 11-element-vector. Doing that we can avoid rarely used discrete feature values and our model can learn weights for each region.
 
