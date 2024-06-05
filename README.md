@@ -197,3 +197,7 @@ Clean data that are not trustworthy, for example,
 - duplicate examples
 - wrong labels
 - wrong feature values (sensor readding errors, ...)
+
+## Feature Crosses
+A feature cross is a synthetic feature formed by multiplying (crossing) two or more features. With feature crosses we can input non-linearity to linear models.
+
