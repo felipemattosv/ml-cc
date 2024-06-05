@@ -83,3 +83,105 @@ To avoid overfitting in test data, comes a new partitioning called validation-se
 
 - TEST-SET: Ignored during training, it is only used to evaluate the model generalization performance (i.e, check if the model is overfitting to the validation-set)
 
+OBS: Before splitting the data, is good to suffle the dataset to prevent the dataset from being ordered by some feature that influences the label.
+
+## Feature engineering
+Mapping Raw Data to Features.
+
+### Mapping numeric values
+Trivial because the feature will have the same value of the raw data
+
+Example:
+
+(raw data) num_rooms: 6 => (feature) num_rooms_feature  = 6.0
+
+### Mapping categorical string values
+Since models cannot multiply strings by the learned weights, we use feature engineering to convert strings to numeric values.
+
+Example:
+
+(raw data) street_name: ['Charleston Road', 'Shorebird Way', 'Rengstorff Avenue', others...]
+
+- 'Charleston Road' => 0
+- 'Shorebird Way' => 1
+- 'Rengstorff Avenue' => 2
+- others (Out-Of-Vocabulary bucket) => 3
+
+(feature) street_name_feature: [0, 1, 2, 3...]
+
+However, if we incorporate these index numbers directly into our model, it will impose some constraints that might be problematic.
+
+- If the model learn one weight to street_name_feature, it will be multiplied for different values. Our model needs the flexibility of learning different weights for each street.
+
+- If the house is in a corner, we can´t represent this in the structure above.
+
+Solution:
+
+#### one-hot encoding
+
+- For values that apply to the example, set correspong vector element to `1`
+- Set all other elements to `0`
+
+The lenght of this vector is equal to the number of elements in the vocabulary.
+
+This approach effectively creates a Boolean variable for every feature possible value (e.g., street name)
+
+So if the value is 0, it will turn the value * weight product to 0. And if the example has two values, then both will be `1` and the rest will be zero (e.g., if the house is in the corner, the two binary values related to the streets are set to 1, and the model will uses both their respective weights).
+
+(raw data) street_name: 'Shorebird Way' => (feature) street_name_feature = [0, 1, 0, 0...]
+
+##### Sparse representation
+Suppose that you had 1,000,000 different street names in your data set that you wanted to include as values for street_name. Explicitly creating a binary vector of 1,000,000 elements where only 1 or 2 elements are true is a very inefficient representation in terms of both storage and computation time when processing these vectors. In this situation, a common approach is to use a sparse representation in which only nonzero values are stored. In sparse representations, an independent model weight is still learned for each feature value, as described above.
+
+## Qualities of Good Features
+
+### Avoid rarely used discrete feature values
+
+Example: "house_type" is a good feature because it´s possible values (['victorian', 'modern', 'kitnet']) will reapeat over the examples and the model will be abble to recognize it´s patterns. But a feature like "unique_house_id" is a bad feature because each value would be used only once, so the model couldn't learn anything from it.
+
+### Prefer clear and obvious meanings
+
+Example: "house_age_years: 27" (years) is better for debbug than "house_age: 851472000" (time since unix)
+
+### Don´t mix "magic" values with actual data
+
+Example: imagine that we have a 0 to 1 float feature like "quality_rating". It´s NOT a good ideia to represent with -1 when the user didn´t entered the quality rating. Instead, it´s a better way creating a feature named "is_quality_rating_defined" and set it to 0.
+
+In the original feature, replace the magic value as follows:
+- For variables that take a finite set of values (discrete variables), add a new value to the set and use it to signify that the feature value is missing.
+- For continuous variables, ensure missing values do not affect the model by using the mean value of the feature's data.
+
+### Don´t choose values that can possibly change in the future to represent a feature
+
+## Cleaning data
+Good ML relies on good data.
+
+### Scalling feature values
+Scaling means converting floating-point feature values from their natural range (for example, 100 to 900) into a standard range (for example, 0 to 1 or -1 to +1). Feature scalling provides the following benefits:
+
+- Helps gradient descent converge more quickly
+- Helps avoid the "NaN trap" (values exceeds the floating-point precision limit during training)
+- Helps the model learn appropriate weights for each feature. Without feature scaling, the model will pay too much attention to the features having a wider range.
+
+#### Linerly map [min value, max value] to a small scale, such as [-1, 1]
+
+#### Z score
+
+$ scaledvalue = (value - mean) / stddev $
+
+### Handling extreme outliers
+First of all we need to find the outliers, for that, is useful to plot the Probability Density Function of the feature and see if it has a "tail". A long "tail" means that are some huge outliers. To minimize the effect of this outliers, we can apply the $ log $ on the feature or set the feature to $ feature = min(feature, L) $ where $ L $ is the value that we will clip the outliers.
+
+### Binning
+If we´re working with latitude, for example, is useful to separate latitude in bins,
+
+example: LatitudeBin1 = 32 < latitude <= 33; (...); LatitudeBin6 = 37 < latitude <= 38;
+
+Doing that, instead of having a floatting-point feature, we now have 11 distinc boolean features, that we can unite to a single 11-element-vector. Doing that we can avoid rarely used discrete feature values and our model can learn weights for each region.
+
+### Scrubbing
+Clean data that are not trustworthy, for example,
+- ommited values
+- duplicate examples
+- wrong labels
+- wrong feature values (sensor readding errors, ...)
