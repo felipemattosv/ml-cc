@@ -172,8 +172,13 @@ Scaling means converting floating-point feature values from their natural range 
 #### Linerly map [min value, max value] to a small scale, such as [-1, 1]
 
 #### Z score
+Transforms the data to have the mean equal to 0 and the standard deviation equal to 1.
 
 $ scaledvalue = (value - mean) / stddev $
+
+<img src="assets/standard_normal_distribution.jpg" alt="Standard Normal Distribution" width="500"/>
+
+Note that it scalles ~98% of the values to the range [-3, +3]. (only huge outliers stay out of this range)
 
 ### Handling extreme outliers
 First of all we need to find the outliers, for that, is useful to plot the Probability Density Function of the feature and see if it has a "tail". A long "tail" means that are some huge outliers. 
