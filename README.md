@@ -201,3 +201,31 @@ Clean data that are not trustworthy, for example,
 ## Feature Crosses
 A feature cross is a synthetic feature formed by multiplying (crossing) two or more features. With feature crosses we can input non-linearity to linear models.
 
+## Regularization
+Regularization means penalizing the complexity of a model to reduce overfitting.
+
+Before the goal of the training optimization algorithm was only reducing loss:
+
+$ minimize(Loss(Data, Model)) $
+
+Now, we want to continue minimizing the loss, but minimize also the complexity of the model:
+
+$ minimize(Loss(Data, Model) + complexity(Model)) $
+
+We can quantify `complexity` using the **$ L_2 $ regularization**, which defines the regularization term as the sum of the squares of all the feature weights:
+
+$ L_2 $ $ regularization = w_1^{2} + w_2^{2} + ... + w_n^{2} $
+
+In this formula, weights close to zero have little effect on model complexity, while outlier weights can have a huge impact.
+
+This approach follows the Bayesian prior:
+- weights should be centered around zero
+- weights shoud be normally distributed
+
+### Lambda (Regularization rate)
+
+$ minimize = (Loss(Data, Model) + λ * complexity(Model)) $
+
+$ = (Loss(Data, Model) + λ * (w_1^{2} + ... + w_n^{2})) $
+
+Note that the second term doesn´t depend on the data and the two terms are balanced with the `λ` coefficient, which says how much we care about learning w/ the training data Versus making a simple model.
