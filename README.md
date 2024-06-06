@@ -257,7 +257,7 @@ where:
 
 -  `(x,y) ∈ D`: data set containing many labeled examples ($ (x,y) $ pairs).
 - `y`: label in the labeled example (`0` or `1`).
-- ``y'`: predicted value (between `0` and `1`)
+- `y'`: predicted value (between `0` and `1`)
 
 ### Regularization in Logistic Regression
 Regularization is extremely important in logistic regression modeling. Without regularization, the asymptotic nature of logistic regression would keep driving loss towards 0 in high dimensions.
