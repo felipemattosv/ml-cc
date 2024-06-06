@@ -261,3 +261,55 @@ where:
 
 ### Regularization in Logistic Regression
 Regularization is extremely important in logistic regression modeling. Without regularization, the asymptotic nature of logistic regression would keep driving loss towards 0 in high dimensions.
+
+## Classification
+We can classificate examples applying a **classification threshold** to the output of a logistic regressor. The choice of the threshold is very important and can be tuned.
+
+Ex.: We can mark a email as span if the logistic regressor output says that the probability of being spam is bigger than 0.8. In this case, the threshold is 0.8.
+
+### Evaluating classification models
+
+#### Accuracy
+Calculate the fraction of the predictions we got right, i.e., correct predictions divided by the number of predictions.
+
+#### True positives (TP's) and False Positives (FP's)
+
+| True Positives | False Positives |
+|----------------|-----------------|
+| We correctly called wolf!<br>We saved the town. | Error: we called wolf falsely.<br>Everyone is mad at us. |
+
+| False Negatives | True Negatives |
+|-----------------|----------------|
+| There was a wolf, but we didn't spot it.<br>It ate all our chickens | No wolf, no alarm.<br>Everyone is fine |
+
+#### Precision
+$ precision = (True Positives) / (All Positive Predictions) $
+
+Intuition: "Did the model cry "wolf" too often?"
+
+#### Recall
+$ recall = (True Positives) / (All Actual Positives) $
+
+Intuition: "Did it miss any wolves?"
+
+<div style="border-left: 4px solid #ffeb3b; padding: 10px; background-color: #fffde7; color: black">
+Note that if model precision is low, an intuitive way to correct it is by raising the classification threshold. However, this can cause the model to miss some True Positives, thereby lowering its Recall.
+
+Conversely, if the model recall is low, an intuitive way to correct it is by lowering the classification threshold. However, this can cause the model to guess some False Positives, thereby lowering its Precision.
+
+It means that you cannot look at precision or recall individually, you need to analyse both togheter.
+</div>
+
+#### A ROC Curve
+Looks at the performance of the model over all possibles classification thresholds.
+
+It is obtained by calculating the TP Rate and the FP Rate for all posible classification thresholds and then plotting a graph with the FP Rate in the horizontal and the TP Rate in the vertical.
+
+where $ TPR = \frac{TP}{TP + FN} $ and $ FPR = \frac{FP}{FP + TN} $
+
+<img src="assets/roc_curve.png" alt="ROC Curve example" width="350"/>
+
+##### AUC
+The Area Under the ROC Curve (i.e., the integral of the ROC Curve).
+
+The closer the AUC value is to 1, the better the model's ability to correctly classify instances between positive and negative classes.
