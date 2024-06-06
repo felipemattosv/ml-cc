@@ -229,3 +229,35 @@ $ minimize = (Loss(Data, Model) + λ * complexity(Model)) $
 $ = (Loss(Data, Model) + λ * (w_1^{2} + ... + w_n^{2})) $
 
 Note that the second term doesn´t depend on the data and the two terms are balanced with the `λ` coefficient, which says how much we care about learning w/ the training data Versus making a simple model.
+
+## Logistic Regression
+Instead of predicting exactly 0 or 1, logistic regression generates a probability—a value between 0 and 1, exclusive.
+
+This approach is useful for calculating the probability and to map into a binary classification problem.
+
+### Sigmoid function
+Restrict(squeezes) the output to always falls between 0 and 1.
+
+$ \large σ(z) = \frac{1}{1 + e^{-z}} $, where `z` is the output of a the linear layer ($ z = b + W * X $)
+
+<img src="assets/sigmoid.png" alt="Sigmoid function graph" width="450"/>
+
+This function basically turns every negative number into a value near to zero, every positive number into a value near to one and increases 'constantly' around the input zero.
+
+Note that `z` is also referred to as the log-odds because the inverse of the sigmoid states that `z` can be defined as the log of the probability of the `1` label divided by the probability of the `0` label.
+
+$ z = log(\frac{σ}{1 - σ}) $
+
+### Log Loss: Loss function for Logistic Regression
+the loss function for linear regression is squared loss. The loss function for logistic regression is the **Log Loss**, which is defined as follows:
+
+$ \large Log Loss = \sum_{(x,y) ∈ D} -y * log(y') - (1 - y) * log(1 - y') $
+
+where:
+
+-  `(x,y) ∈ D`: data set containing many labeled examples ($ (x,y) $ pairs).
+- `y`: label in the labeled example (`0` or `1`).
+- ``y'`: predicted value (between `0` and `1`)
+
+### Regularization in Logistic Regression
+Regularization is extremely important in logistic regression modeling. Without regularization, the asymptotic nature of logistic regression would keep driving loss towards 0 in high dimensions.
