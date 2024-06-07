@@ -318,3 +318,28 @@ where $ TPR = \frac{TP}{TP + FN} $ and $ FPR = \frac{FP}{FP + TN} $
 The Area Under the ROC Curve (i.e., the integral of the ROC Curve).
 
 The closer the AUC value is to 1, the better the model's ability to correctly classify instances between positive and negative classes.
+
+## Regularization for Sparsity
+Many dimensional feature crosses may significantly increase feature space. This can cause the following possible issues:
+
+- Model size (RAM) become huge
+- "Noise" coefficients (causes overfitting)
+
+The solution is turn some weights to zero, being carefully to not lose important coefficients.
+
+### $ L_0 Regularization $
+Penalizes weights that are not zero, it´s the ideal, but envolve Non-convex optimization (NP-hard).
+
+### $ L_1 Regularization $
+- Penalize sum of $ abs(weights) $
+- Convex problem
+- Encourage sparsity unlike $ L_2 $
+
+For example, take a look at the values of the weights after the training loop, using different regularizations:
+
+$ L_1 $ on top and $ L_2 $ on bottom:
+
+![L1 reg versus L2 reg](assets/L1reg_versus_L2reg.png)
+
+Note that $ L_1 $ encourage weights to turn 0, while $ L_2 $ encourage weights to became nearly 0 (i.e., don't provide sparsity).
+
